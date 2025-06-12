@@ -24,7 +24,7 @@ def login_jwt(response: Response, login_user: LoginUser = Body()):
     response.body = b"jwt login ok"
     return response
 
-# 쿠키 없애기
+# 로그아웃: 쿠키 없애기
 @router.post("/logout")
 def logout_jwt(response: Response):
     response.delete_cookie("access_token")
