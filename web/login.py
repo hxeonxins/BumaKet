@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Body, APIRouter
 from starlette import status
+from starlette.requests import Request
 from starlette.responses import Response
 from service import login as service
 
@@ -31,3 +32,8 @@ def logout_jwt(response: Response):
     response.status_code = status.HTTP_200_OK
     response.body = b"jwt logout ok"
     return response
+
+@router.get("/me")
+def me(request: Request):
+    access_token = request.cookies.get("access_token")
+    return service.token_to_user(access_token)

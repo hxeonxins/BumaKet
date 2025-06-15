@@ -5,8 +5,8 @@ from data import user_repo as fetch_user_by_username
 from jose import jwt
 from datetime import datetime, timedelta
 from data import user_repo as data
-from jwt.jwt_util import create_access_token
-from model.users import LoginUser
+from jwt.jwt_util import create_access_token, decode_access_token
+from model.users import LoginUser, UserResponse
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = "your-secret-key"
@@ -29,3 +29,12 @@ def login_service(login_user: LoginUser):
     access_token = create_access_token(token_data)
 
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+def token_to_user(token: str) -> UserResponse:
+    payload = decode_access_token(token)
+    # 레디스 검색
+
+    user = data.find_by_username(payload["username"])
+    user.password = None
+    return user
