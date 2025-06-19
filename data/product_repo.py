@@ -2,7 +2,7 @@ from typing import Optional
 
 from data import get_db_connection
 
-def insert_product(user_id: int, title: str, image_url: str, description: Optional[str] = None):
+def insert_product(user_id: int, title: str, description: Optional[str], image_url: str):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
