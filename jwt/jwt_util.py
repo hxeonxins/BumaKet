@@ -21,3 +21,7 @@ def decode_access_token(access_token: str):
         return payload
     except JWTError:
         raise JWTError("Invalid access token")
+
+def get_current_user(token: str):
+    payload = decode_access_token(token)
+    return payload
